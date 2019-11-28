@@ -1,5 +1,10 @@
 # 饿了么客户端
 
+## 20191128更新 ##
+* vue.config.js--添加代理配置；
+* api/v1.js--添加searchplace接口；
+* view/city.vue--添加搜索地址功能；
+
 ## 20190920更新 ##
 * main.js--添加判断beforeEach登录状态；
 * router.js--添加路由city；

@@ -1,4 +1,3 @@
-const baseURL = "http://localhost:9000";
 export default async (url = "", data = {}, type = "GET", method = "fetch") => {
   type = type.toUpperCase();
 
@@ -10,7 +9,7 @@ export default async (url = "", data = {}, type = "GET", method = "fetch") => {
 
     if (dataStr !== "") {
       dataStr = dataStr.substr(0, dataStr.lastIndexOf("&"));
-      url = baseURL + url + "?" + dataStr;
+      url = url + "?" + dataStr;
     }
   }
 
