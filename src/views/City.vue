@@ -16,19 +16,21 @@
     >
       <div slot="action" @click="searchPlace">搜索</div>
     </van-search>
-    <van-list :finished="finished" finished-text="没有更多了">
+    <van-divider>搜索记录</van-divider>
+    <van-list finished-text="没有更多了">
       <van-cell
         v-for="(item, index) in placelist"
         :key="index"
         :title="item.name"
         :label="item.address"
+        @click="nextpage(index, item.geohash)"
       />
     </van-list>
   </div>
 </template>
 
 <script>
-import { V1 } from "../assets/js/api";
+import { v1Api } from "../assets/js/api";
 export default {
   data() {
     return {
@@ -38,22 +40,46 @@ export default {
       placelist: [], // 搜索城市列表
       placeHistory: [], // 历史搜索记录
       historytitle: true, // 默认显示搜索历史头部，点击搜索后隐藏
-      placeNone: false, // 搜索无结果，显示提示信息
-      loading: false,
-      finished: false
+      placeNone: false // 搜索无结果，显示提示信息
     };
   },
   mounted() {
     this.cityid = this.$route.params.cityid;
-    V1.currentcity(this.cityid).then(res => {
+    //当前城市名
+    v1Api.currentcity(this.cityid).then(res => {
       this.cityname = res.name;
     });
+    //获取搜索历史记录
+    if (localStorage.getItem("placeHistory")) {
+      this.placelist = JSON.parse(localStorage.getItem("placeHistory"));
+    } else {
+      this.placelist = [];
+    }
   },
   methods: {
     searchPlace() {
-      V1.searchplace(1, this.inputVaule).then(res => {
+      v1Api.searchplace(this.cityid, this.inputVaule).then(res => {
         this.placelist = res;
       });
+    },
+    nextpage(index, geohash) {
+      let history = localStorage.getItem("placeHistory");
+      let choosePlace = this.placelist[index];
+      let checkrepeat = false;
+      if (history) {
+        this.placeHistory = JSON.parse(history);
+        this.placeHistory.forEach(item => {
+          if (item.geohash == geohash) {
+            checkrepeat = true;
+          }
+        });
+        if (!checkrepeat) {
+          this.placeHistory.push(choosePlace);
+        }
+      } else {
+        this.placeHistory.push(choosePlace);
+      }
+      localStorage.setItem("placeHistory", JSON.stringify(this.placeHistory));
     }
   }
 };

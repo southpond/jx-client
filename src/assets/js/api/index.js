@@ -1,3 +1,3 @@
-import V1 from "./v1";
-import V2 from "./v2";
-export { V1, V2 };
+import v1Api from "./v1";
+import v2Api from "./v2";
+export { v1Api, v2Api };

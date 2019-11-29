@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { V1 } from "../assets/js/api";
+import { v1Api } from "../assets/js/api";
 export default {
   data() {
     return {
@@ -71,19 +71,17 @@ export default {
   },
   mounted() {
     // 获取当前城市
-    V1.cityGuess().then(res => {
-      console.log(res);
+    v1Api.cityGuess().then(res => {
       this.guessCity = res.name;
       this.guessCityid = res.id;
     });
     //获取热门城市
-    V1.hotcity().then(res => {
+    v1Api.hotcity().then(res => {
       this.hotcity = res;
     });
     //获取所有城市
-    V1.groupcity().then(res => {
+    v1Api.groupcity().then(res => {
       this.groupcity = res;
-      console.log(res);
     });
   }
 };

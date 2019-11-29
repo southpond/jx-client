@@ -1,5 +1,9 @@
 # 饿了么客户端
 
+## 20191129更新 ##
+* api/index.js--更改api命名方式；
+* view/city.vue--添加搜索历史记录；
+
 ## 20191128更新 ##
 * vue.config.js--添加代理配置；
 * api/v1.js--添加searchplace接口；
