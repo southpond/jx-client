@@ -5,6 +5,7 @@
       left-text=""
       right-text="切换城市"
       left-arrow
+      :fixed="true"
       @click-left="$router.go(-1)"
     />
     <van-search
@@ -16,10 +17,17 @@
     >
       <div slot="action" @click="searchPlace">搜索</div>
     </van-search>
-    <van-divider>搜索记录</van-divider>
-    <van-list finished-text="没有更多了">
+    <van-divider v-if="historytitle">搜索记录</van-divider>
+    <van-list
+      v-model="loading"
+      :finished="finished"
+      finished-text="没有更多了"
+      :error.sync="error"
+      error-text="很抱歉！无搜索结果"
+    >
       <van-cell
         v-for="(item, index) in placelist"
+        v-show="nodata"
         :key="index"
         :title="item.name"
         :label="item.address"
@@ -40,10 +48,17 @@ export default {
       placelist: [], // 搜索城市列表
       placeHistory: [], // 历史搜索记录
       historytitle: true, // 默认显示搜索历史头部，点击搜索后隐藏
-      placeNone: false // 搜索无结果，显示提示信息
+      placeNone: false, // 搜索无结果，显示提示信息
+      error: false,
+      loading: false,
+      finished: false,
+      nodata: true
     };
   },
   mounted() {
+    this.$nextTick(() => {
+      this.loading = false;
+    });
     this.cityid = this.$route.params.cityid;
     //当前城市名
     v1Api.currentcity(this.cityid).then(res => {
@@ -52,14 +67,28 @@ export default {
     //获取搜索历史记录
     if (localStorage.getItem("placeHistory")) {
       this.placelist = JSON.parse(localStorage.getItem("placeHistory"));
+      console.log(this.placelist);
     } else {
       this.placelist = [];
     }
   },
   methods: {
     searchPlace() {
+      this.loading = true;
       v1Api.searchplace(this.cityid, this.inputVaule).then(res => {
+        this.historytitle = false;
         this.placelist = res;
+        if (res.length) {
+          this.nodata = true;
+          this.error = false;
+          this.loading = false;
+          this.finished = true;
+        } else {
+          this.nodata = false;
+          this.loading = false;
+          this.finished = false;
+          this.error = true;
+        }
       });
     },
     nextpage(index, geohash) {
@@ -80,6 +109,7 @@ export default {
         this.placeHistory.push(choosePlace);
       }
       localStorage.setItem("placeHistory", JSON.stringify(this.placeHistory));
+      console.log(geohash);
     }
   }
 };

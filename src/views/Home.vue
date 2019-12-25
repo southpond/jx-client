@@ -87,10 +87,4 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
-#home {
-  .city_nav {
-    padding-top: 46px;
-  }
-}
-</style>
+<style lang="less" scoped></style>

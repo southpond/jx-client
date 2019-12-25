@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import { V1, V2 } from "../assets/js/api";
+import { v1Api, v2Api } from "../assets/js/api";
 export default {
   data() {
     return {
@@ -98,7 +98,7 @@ export default {
         password: this.password,
         captcha_code: this.imgCode
       };
-      V2.accountLogin(data).then(res => {
+      v2Api.accountLogin(data).then(res => {
         console.log(res);
       });
     },
@@ -106,7 +106,7 @@ export default {
       this.getCaptchas();
     },
     getCaptchas() {
-      V1.getcaptchas().then(res => {
+      v1Api.getcaptchas().then(res => {
         this.imgCodeStyle.backgroundImage = `url(${res.code})`;
       });
     }
