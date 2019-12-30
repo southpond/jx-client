@@ -36,27 +36,24 @@
               <span class="order_part">月售12单</span>
             </div>
             <section class="rating_order_num_right">
-              <span class="delivery_left">aaaaaa</span>
+              <span class="delivery_left">蜂鸟专送</span>
               <span class="delivery_right">准时达</span>
             </section>
           </section>
-          <section>
+          <section class="fee_distance">
             <p class="fee">
               <span>¥20起送</span>
-              <span>/</span>
+              <span class="fee_distance_split">/</span>
               <span>配送费约¥5</span>
             </p>
             <p class="distance_time">
               <span>1406.1公里</span>
-              <span>/</span>
+              <span class="fee_distance_split">/</span>
               <span class="order_time">14小时59分钟</span>
             </p>
           </section>
         </article>
       </main>
-    </van-cell>
-    <van-cell>
-      afasdfasf
     </van-cell>
   </div>
 </template>
@@ -97,6 +94,10 @@ export default {
         h3 {
           color: #333;
           font-weight: 700;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          max-width: 200px;
         }
         .shop_detail_ul {
           display: flex;
@@ -143,6 +144,22 @@ export default {
           .delivery_right {
             color: @blue;
           }
+        }
+      }
+      .fee_distance {
+        .flex_space_between();
+        font-size: 10px;
+        .fee_distance_split {
+          padding: 0 3px;
+        }
+        .fee {
+          color: #666;
+        }
+        .distance_time {
+          color: #999;
+        }
+        .order_time {
+          color: @blue;
         }
       }
     }
