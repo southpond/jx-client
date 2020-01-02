@@ -29,6 +29,7 @@
 
 <script>
 import ShopList from "../components/ShopList";
+import { v1Api } from "../assets/js/api";
 export default {
   data() {
     return {
@@ -45,6 +46,14 @@ export default {
   },
   components: {
     ShopList
+  },
+  async beforeMount() {
+    if (!this.$route.query.geohash) {
+      const address = await v1Api.cityGuess();
+      this.geohash = address.latitude + "," + address.longitude;
+    } else {
+      this.geohash = this.$route.query.geohash;
+    }
   },
   mounted() {},
   methods: {

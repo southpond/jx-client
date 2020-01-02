@@ -63,7 +63,8 @@ export default {
     return {
       value: 2.5
     };
-  }
+  },
+  props: ["geohash"]
 };
 </script>
 <style lang="less">
