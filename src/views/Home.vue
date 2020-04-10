@@ -2,7 +2,7 @@
   <div id="home">
     <van-nav-bar title="" :z-index="99" :fixed="true">
       <template v-slot:left>
-        饿了么
+        首页
       </template>
       <template v-slot:right>
         登录 | 注册
